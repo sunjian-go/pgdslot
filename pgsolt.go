@@ -47,19 +47,18 @@ func SlotHandler(c *gin.Context) {
 		StopProcessFunc()
 	}
 	fmt.Println("slotname: ", slotname)
-	go func() {
-		if !DeleteSlotnameHandler(slotname) {
-			//fmt.Println("删除插槽失败，请检查插槽名是否存在...")
-			c.JSON(400, gin.H{
-				"err": "删除插槽失败，请检查插槽是否存在",
-			})
-			return
-		} else {
-			c.JSON(200, gin.H{
-				"msg": "操作成功",
-			})
-		}
-	}()
+
+	if !DeleteSlotnameHandler(slotname) {
+		fmt.Println("删除插槽失败，请检查插槽名是否存在...")
+		c.JSON(400, gin.H{
+			"err": "删除插槽失败，请检查插槽是否存在",
+		})
+		return
+	} else {
+		c.JSON(200, gin.H{
+			"msg": "操作成功",
+		})
+	}
 
 }
 func main() {
